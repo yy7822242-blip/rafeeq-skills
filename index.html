@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#5B4CFF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="رفيق المهارات" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="description" content="جرعات معرفية يومية — مهارات حياتية ومهنية في 3 دقائق" />
+  <title>رفيق المهارات المصغرة</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <div class="logo-circle"><span class="logo-icon">⚡</span></div>
+      <h1>رفيق المهارات</h1>
+      <p>جرعات معرفية يومية · 3 دقائق فقط</p>
+      <div class="loader"></div>
+    </div>
+  </div>
+  <div id="app" class="app hidden">
+    <header class="header">
+      <div class="header-top">
+        <div class="user-info">
+          <div class="avatar" id="userAvatar">م</div>
+          <div>
+            <div class="greeting" id="greeting">صباح الخير</div>
+            <div class="user-name" id="userName">مستكشف المهارات</div>
+          </div>
+        </div>
+        <button class="icon-btn" id="btnSettings" title="الإعدادات">⚙️</button>
+      </div>
+      <div class="streak-bar">
+        <span class="streak-fire">🔥</span>
+        <span id="streakCount">0</span> أيام متتالية
+        <span class="streak-separator">•</span>
+        <span id="totalDoses">0</span> جرعة مكتملة
+      </div>
+    </header>
+    <main class="main" id="mainContent">
+      <section id="page-home" class="page active">
+        <div class="coach-banner" id="coachBanner">
+          <div class="coach-avatar">🤖</div>
+          <div class="coach-text">
+            <strong>مدربك الشخصي</strong>
+            <p id="coachMessage">جاري تحليل أهدافك...</p>
+          </div>
+        </div>
+        <div class="daily-card" id="dailyCard">
+          <div class="daily-badge">جرعة اليوم</div>
+          <h2 id="dailyTitle">إدارة الغضب في 3 دقائق</h2>
+          <p id="dailyDesc">تعلم تقنية بسيطة تهدئ أعصابك فوراً</p>
+          <div class="daily-meta">
+            <span>⏱ 3 دقائق</span>
+            <span>🎯 ذكاء عاطفي</span>
+          </div>
+          <div class="daily-actions">
+            <button class="btn-primary" id="btnStartDaily">ابدأ الجرعة الآن</button>
+            <button class="btn-audio" id="btnAudioDaily" title="استمع فقط">🎧 استمع</button>
+          </div>
+        </div>
+        <div class="section-title">
+          <h3>مسارات مقترحة لك</h3>
+          <button class="link-btn" id="btnSeeAllPaths">عرض الكل</button>
+        </div>
+        <div class="paths-scroll" id="pathsScroll"></div>
+        <div class="section-title"><h3>تحدي اليوم</h3></div>
+        <div class="challenge-card" id="challengeCard">
+          <div class="challenge-icon">💪</div>
+          <div class="challenge-content">
+            <h4 id="challengeTitle">طبق ما تعلمته</h4>
+            <p id="challengeDesc">بعد إنهاء جرعة اليوم، سيظهر هنا تحدٍ عملي صغير</p>
+          </div>
+          <button class="btn-secondary small" id="btnChallenge" disabled>ابدأ التحدي</button>
+        </div>
+        <div class="section-title"><h3>تقدمك هذا الأسبوع</h3></div>
+        <div class="week-progress" id="weekProgress"></div>
+      </section>
+      <section id="page-paths" class="page">
+        <div class="page-header">
+          <h2>مسارات التعلم</h2>
+          <p>اختر المسار الذي يناسب هدفك</p>
+        </div>
+        <div class="categories-grid" id="categoriesGrid"></div>
+      </section>
+      <section id="page-path-detail" class="page">
+        <div class="path-detail-header">
+          <button class="back-btn" id="btnBackFromPath">← رجوع</button>
+          <h2 id="pathDetailTitle">المسار</h2>
+          <p id="pathDetailDesc"></p>
+          <div class="path-progress-bar"><div class="path-progress-fill" id="pathProgressFill"></div></div>
+          <div class="path-progress-text" id="pathProgressText">0 / 0 جرعة</div>
+        </div>
+        <div class="doses-list" id="dosesList"></div>
+      </section>
+      <section id="page-dose" class="page">
+        <div class="dose-header">
+          <button class="back-btn" id="btnBackFromDose">← رجوع</button>
+          <div class="dose-progress">
+            <div class="dose-step active" data-step="1">🎧</div>
+            <div class="dose-line"></div>
+            <div class="dose-step" data-step="2">👁️</div>
+            <div class="dose-line"></div>
+            <div class="dose-step" data-step="3">✓</div>
+          </div>
+        </div>
+        <div class="dose-step-content active" id="step-tip">
+          <div class="step-badge">الخطوة 1 من 3 · استمع</div>
+          <div class="tip-card">
+            <div class="tip-label">🎧 الجانب السمعي</div>
+            <h2 id="tipText">...</h2>
+            <p id="tipSub">...</p>
+          </div>
+          <div class="step-actions">
+            <button class="btn-audio" id="btnListenTip">▶ استمع للشرح الصوتي</button>
+            <button class="btn-primary" id="btnNextToVideo">التالي → شاهد التطبيق</button>
+          </div>
+        </div>
+        <div class="dose-step-content" id="step-video">
+          <div class="step-badge">الخطوة 2 من 3 · شاهد</div>
+          <div class="video-placeholder" id="videoBox">
+            <div class="play-btn">▶</div>
+            <p>تطبيق عملي مرئي (60–90 ثانية)</p>
+            <small id="videoTitle">...</small>
+          </div>
+          <div class="video-transcript" id="videoTranscript"></div>
+          <div class="step-actions">
+            <button class="btn-audio" id="btnListenTranscript">▶ استمع للشرح أثناء المشاهدة</button>
+            <button class="btn-primary" id="btnNextToQuiz">التالي → ثبّت المعلومة</button>
+          </div>
+        </div>
+        <div class="dose-step-content" id="step-quiz">
+          <div class="step-badge">الخطوة 3 من 3 · ثبّت</div>
+          <div class="quiz-card">
+            <div class="quiz-label">تأكد أنك فهمت · سؤال واحد</div>
+            <h3 id="quizQuestion">...</h3>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback hidden" id="quizFeedback"></div>
+          </div>
+          <p class="apply-hint">بعد التأكيد ستنتقل للتطبيق الحسي (التحدي العملي).</p>
+          <button class="btn-primary hidden" id="btnFinishDose">انتقل للتطبيق العملي ✓</button>
+        </div>
+      </section>
+      <section id="page-challenge" class="page">
+        <div class="page-header">
+          <button class="back-btn" id="btnBackFromChallenge">← رجوع</button>
+          <h2>تحدي اليوم</h2>
+        </div>
+        <div class="challenge-detail">
+          <div class="challenge-big-icon" id="challengeBigIcon">💪</div>
+          <h3 id="challengeDetailTitle">...</h3>
+          <p id="challengeDetailDesc">...</p>
+          <div class="challenge-steps" id="challengeSteps"></div>
+          <textarea id="challengeResponse" placeholder="اكتب هنا ما فعلته أو ملاحظاتك (اختياري)..." rows="3"></textarea>
+          <button class="btn-primary" id="btnCompleteChallenge">أتممت التحدي ✓</button>
+        </div>
+      </section>
+      <section id="page-profile" class="page">
+        <div class="page-header"><h2>ملفك الشخصي</h2></div>
+        <div class="profile-card">
+          <div class="avatar large" id="profileAvatar">م</div>
+          <input type="text" id="inputName" placeholder="اسمك" maxlength="20" />
+          <p class="profile-stats">
+            <span id="profileDoses">0</span> جرعة ·
+            <span id="profileStreak">0</span> يوم متتالي
+          </p>
+        </div>
+        <div class="settings-group">
+          <h4>وقت الفراغ اليومي</h4>
+          <div class="time-options" id="timeOptions">
+            <button class="time-btn" data-time="3">3 دقائق</button>
+            <button class="time-btn active" data-time="5">5 دقائق</button>
+            <button class="time-btn" data-time="10">10 دقائق</button>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h4>وضع التعلم الصوتي</h4>
+          <div class="toggle-row">
+            <span>تفعيل الوضع الصوتي أولاً</span>
+            <label class="toggle">
+              <input type="checkbox" id="audioFirstToggle" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h4>أهدافك الرئيسية</h4>
+          <div class="goals-list" id="goalsList"></div>
+        </div>
+        <button class="btn-secondary" id="btnResetData">إعادة تعيين البيانات</button>
+      </section>
+    </main>
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-page="home"><span class="nav-icon">🏠</span><span>الرئيسية</span></button>
+      <button class="nav-btn" data-page="paths"><span class="nav-icon">📚</span><span>المسارات</span></button>
+      <button class="nav-btn" data-page="profile"><span class="nav-icon">👤</span><span>حسابي</span></button>
+    </nav>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <div id="shareModal" class="share-modal hidden">
+    <div class="share-overlay" id="shareOverlay"></div>
+    <div class="share-content">
+      <button class="share-close" id="btnCloseShare">×</button>
+      <div class="share-card" id="shareCard">
+        <div class="share-card-header"><span class="share-logo">⚡ رفيق المهارات</span></div>
+        <div class="share-card-body">
+          <div class="share-icon" id="shareIcon">🎯</div>
+          <h3 id="shareTitle">...</h3>
+          <p id="shareTip">...</p>
+          <div class="share-footer">
+            <span>أتممت هذه المهارة المصغرة</span>
+            <span class="share-brand">#رفيق_المهارات</span>
+          </div>
+        </div>
+      </div>
+      <div class="share-actions">
+        <button class="btn-primary" id="btnShareNative">مشاركة الآن 📤</button>
+        <button class="btn-secondary" id="btnCopyShare">نسخ النص</button>
+      </div>
+    </div>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
